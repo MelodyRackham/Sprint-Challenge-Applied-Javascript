@@ -36,9 +36,9 @@ function articleCreator(articleInfo) {
   imgContainer.classList.add('img-container');
 
   // set text content
-  headline.textContent = response.data.headline;
-  img.src = response.data.authorPhoto;
-  authorName.textContent = `By ${response.data.authorName}`;
+  headline.textContent = articleInfo.headline;
+  img.src = articleInfo.authorPhoto;
+  authorName.textContent = `By ${articleInfo.authorName}`;
 
   // set up structure of elements
   card.appendChild(headline);
@@ -49,7 +49,10 @@ function articleCreator(articleInfo) {
 
 axios.get('https://lambda-times-backend.herokuapp.com/articles').then(response => {
   console.log(response.data);
-  response.data.articles.forEach(article => {
-    cardsContainer.appendChild(articleCreator(article));
-  });
+  const articles = response.data.articles;
+  for (topic in articles) {
+    articles[topic].forEach(article => {
+      cardsContainer.appendChild(articleCreator(article));
+    });
+  }
 });
